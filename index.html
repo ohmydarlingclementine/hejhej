@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STACEY WANG — EDITORIAL ARCHIVE</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Syne (Ultra-wide display) & Inter (Swiss Neo-Grotesk) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0d0d0d;
+      color: #121212;
+    }
+    .font-syne {
+      font-family: 'Syne', sans-serif;
+    }
+    /* Smooth card stack fan-out animation */
+    .stack-card {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+    .stack-container:hover .stack-card-1 {
+      transform: translate(-35px, -10px) rotate(-8deg);
+    }
+    .stack-container:hover .stack-card-2 {
+      transform: translate(35px, 15px) rotate(8deg);
+    }
+    .stack-container:hover .stack-card-3 {
+      transform: translate(0px, -20px) rotate(-2deg) scale(1.03);
+    }
+    /* Image color reveal on hover */
+    .editorial-img {
+      filter: grayscale(100%) contrast(110%);
+      transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .editorial-card:hover .editorial-img {
+      filter: grayscale(0%) contrast(100%);
+      transform: scale(1.04);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#FF3B94] selection:text-white">
+
+  <!-- ================= TOP SWISS CORNER METADATA HEADER ================= -->
+  <header class="fixed top-0 left-0 w-full z-50 p-4 md:p-6 flex justify-between items-start text-xs font-mono tracking-widest text-white mix-blend-difference pointer-events-none">
+    <div class="space-y-1">
+      <p class="font-bold">STACEY WANG</p>
+      <p class="text-white/60">PORTFOLIO ARCHIVE / 2026</p>
+    </div>
+    <div class="flex gap-6 pointer-events-auto">
+      <a href="https://linkedin.com" target="_blank" class="hover:underline tracking-normal text-white">LINKEDIN ↗</a>
+      <a href="https://behance.net" target="_blank" class="hover:underline tracking-normal text-white">BEHANCE ↗</a>
+      <a href="#projects" class="hover:underline tracking-normal text-white">WORK</a>
+      <a href="#about" class="hover:underline tracking-normal text-white">INFO</a>
+    </div>
+  </header>
+
+  <!-- ================= SECTION 1: COBALT BLUE POSTER (INSPIRED BY IMAGE 1) ================= -->
+  <section class="min-h-screen bg-[#002BF5] text-white p-6 md:p-12 flex flex-col justify-between relative overflow-hidden pt-24">
+    
+    <!-- Top Corner Metadata -->
+    <div class="flex justify-between text-[11px] font-mono tracking-widest uppercase opacity-80">
+      <span>THE WOMEN</span>
+      <span>BEHIND BACKSPACE</span>
+    </div>
+
+    <!-- Center Content & Stacked Photo Component -->
+    <div class="my-auto text-center relative z-10 py-12">
+      <h1 class="font-syne text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tight uppercase leading-none mb-8">
+        MEET <span class="mx-4 md:mx-12 font-normal italic font-serif">OUR</span> WORK
+      </h1>
+
+      <!-- FAN-OUT POLAROID PHOTO STACK (HOVER TO EXPLORE) -->
+      <div class="stack-container relative w-64 sm:w-80 h-80 sm:h-96 mx-auto my-8 cursor-pointer">
+        
+        <!-- Bottom Card -->
+        <div class="stack-card stack-card-1 absolute inset-0 bg-white p-3 shadow-2xl rotate-[-4deg] border border-black/20">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale" alt="Work 1">
+        </div>
+
+        <!-- Middle Card -->
+        <div class="stack-card stack-card-2 absolute inset-0 bg-white p-3 shadow-2xl rotate-[5deg] border border-black/20">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale" alt="Work 2">
+        </div>
+
+        <!-- Top Card (Grid of 4 Vintage Photos like Image 1) -->
+        <div class="stack-card stack-card-3 absolute inset-0 bg-white p-3 shadow-2xl border border-black/20 flex flex-col justify-between">
+          <div class="grid grid-cols-2 gap-1.5 h-[85%]">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover grayscale" alt="Photo 1">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover grayscale" alt="Photo 2">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover grayscale" alt="Photo 3">
+            <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover grayscale" alt="Photo 4">
+          </div>
+          <p class="font-mono text-[10px] text-black text-center tracking-widest uppercase pt-2">[BEFORE BACKSPACE]</p>
+        </div>
+
+      </div>
+
+      <p class="font-mono text-xs tracking-widest uppercase opacity-75 mt-4">
+        ( Hover over photos to inspect stack )
+      </p>
+    </div>
+
+    <!-- Bottom Corner Metadata -->
+    <div class="flex justify-between text-[11px] font-mono tracking-widest uppercase opacity-80">
+      <span>EDITORIAL & BRAND DIRECTION</span>
+      <span>BEHIND BACKSPACE</span>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2: HIGH-FASHION OVERLAY POSTERS (INSPIRED BY IMAGE 2) ================= -->
+  <section id="projects" class="bg-[#0D0D0D] text-white p-6 md:p-12 space-y-24 py-24">
+    
+    <div class="flex justify-between items-end border-b border-white/20 pb-4">
+      <div>
+        <p class="font-mono text-xs text-[#FF3B94] tracking-widest uppercase">ISSUE 06 / SELECTED WORKS</p>
+        <h2 class="font-syne text-4xl sm:text-6xl uppercase font-bold mt-1">NEW BAU EDITION</h2>
+      </div>
+      <p class="font-mono text-xs text-white/50 hidden sm:block">SWISS TYPE & EDITORIAL DIRECTION</p>
+    </div>
+
+    <!-- PROJECT POSTER 1 (Image 2 Style: Black & White Photo with Hot Pink Giant Overlapping Type) -->
+    <div class="editorial-card relative group rounded-none overflow-hidden bg-black border border-white/10 cursor-pointer">
+      <div class="relative h-[80vh] w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1600&q=80" 
+             class="editorial-img w-full h-full object-cover opacity-80" alt="Project 1">
+        
+        <!-- Overlapping Neon Hot Pink Oversized Type -->
+        <div class="absolute inset-0 p-6 md:p-12 flex flex-col justify-between z-10 pointer-events-none">
+          <div class="flex justify-between font-mono text-xs font-bold text-[#FF3B94] tracking-widest uppercase">
+            <span>NT BAU</span>
+            <span>ISSUE 06</span>
+          </div>
+
+          <div class="space-y-0">
+            <h3 class="font-syne text-6xl sm:text-8xl md:text-[110px] font-extrabold uppercase leading-[0.85] text-[#FF3B94] drop-shadow-md">
+              NEW BAU<br>EDITION
+            </h3>
+            <h4 class="font-syne text-5xl sm:text-7xl md:text-[90px] font-extrabold uppercase leading-[0.85] text-[#FF3B94]/90 mt-4">
+              DARING SHAPES
+            </h4>
+          </div>
+
+          <div class="flex justify-between items-end font-mono text-[10px] sm:text-xs text-[#FF3B94] tracking-wider uppercase max-w-full">
+            <p class="max-w-xs leading-relaxed hidden md:block">
+              A RAW, NEUTRAL AND STRIPPED-DOWN TYPEFACE FAMILY COEXISTING WITH HIGH FASHION CONCEPTUAL ART.
+            </p>
+            <span class="border border-[#FF3B94] px-4 py-2 hover:bg-[#FF3B94] hover:text-black transition-colors pointer-events-auto">EXPLORE CASE STUDY ↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT POSTER 2 (High Contrast Blue & White Editorial Spread) -->
+    <div class="editorial-card relative group rounded-none overflow-hidden bg-black border border-white/10 cursor-pointer">
+      <div class="relative h-[80vh] w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80" 
+             class="editorial-img w-full h-full object-cover opacity-75" alt="Project 2">
+        
+        <div class="absolute inset-0 p-6 md:p-12 flex flex-col justify-between z-10">
+          <div class="flex justify-between font-mono text-xs font-bold text-white tracking-widest uppercase">
+            <span>BYLINE MAG</span>
+            <span>VOL. 04</span>
+          </div>
+
+          <h3 class="font-syne text-6xl sm:text-8xl md:text-[100px] font-extrabold uppercase leading-[0.85] text-white">
+            DESIGN<br><span class="text-[#002BF5]">THERAPY</span>
+          </h3>
+
+          <div class="flex justify-between items-end font-mono text-xs text-white tracking-wider uppercase">
+            <span>ART DIRECTION & BRAND ARCHITECTURE</span>
+            <span class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors">VIEW GALLERY ↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= SECTION 3: ROUNDED EDITORIAL COLLAGE (INSPIRED BY IMAGE 3 - NOVUM / MAYA KOI) ================= -->
+  <section id="about" class="bg-[#0D0D0D] p-4 sm:p-8 md:p-12 pb-24">
+    
+    <!-- Outer Rounded Swiss Frame (Matching Image 3 rounded window aesthetic) -->
+    <div class="bg-[#F4F4EE] text-[#121212] rounded-3xl p-6 sm:p-12 border border-white/20 shadow-2xl relative overflow-hidden">
+      
+      <!-- Top Novum Header -->
+      <div class="flex justify-between items-start border-b border-black/15 pb-6 mb-8 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <span class="font-syne text-2xl font-extrabold tracking-tighter">NOVUM</span>
+          <span class="border border-black px-2 py-0.5 rounded-full text-[10px]">arte naif</span>
+        </div>
+        <p class="max-w-md text-[11px] leading-relaxed text-gray-700 hidden md:block">
+          Su obra se sitúa en la ilustración contemporánea, combinando un trazo espontáneo y expresionista con una estética cercana al collage y al universo fanzine.
+        </p>
+      </div>
+
+      <!-- Main Collage Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-8">
+        
+        <!-- Book Covers & Zine Art Collage -->
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-4 items-center">
+          <div class="bg-white p-2 border border-black/10 shadow-sm rotate-[-2deg]">
+            <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Zine Cover 1" class="w-full h-48 object-cover">
+            <p class="font-mono text-[9px] mt-2 text-center uppercase">NON STOP POETRY</p>
+          </div>
+
+          <div class="bg-white p-2 border border-black/10 shadow-md rotate-[3deg] col-span-1 sm:col-span-1">
+            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80" alt="Book Cover" class="w-full h-56 object-cover">
+            <p class="font-serif italic text-xs text-center mt-2">The Favourite Game</p>
+          </div>
+
+          <div class="bg-white p-2 border border-black/10 shadow-sm rotate-[-3deg] hidden sm:block">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Zine Cover 2" class="w-full h-48 object-cover">
+            <p class="font-mono text-[9px] mt-2 text-center uppercase">A NOVEL BY LEONARD</p>
+          </div>
+        </div>
+
+        <!-- Giant Title Overlay + Portrait (Maya Koi Style) -->
+        <div class="lg:col-span-5 relative flex flex-col justify-center items-start">
+          <h2 class="font-syne text-6xl sm:text-8xl font-extrabold tracking-tighter text-black z-10 -mb-6">
+            Maya Koi
+          </h2>
+          
+          <div class="bg-white p-2 border border-black/20 shadow-lg w-full max-w-sm mt-4">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Maya Koi Portrait" class="w-full h-72 object-cover grayscale">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Paragraph Block -->
+      <div class="border-t border-black/15 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 font-mono text-xs text-gray-700">
+        <p class="max-w-xl leading-relaxed">
+          Su obra, marcada por trazos crudos y referencias literarias, explora lo íntimo desde una mirada imperfecta y emocional. Actualmente desarrolla proyectos editoriales y colaboraciones en el ámbito cultural independiente.
+        </p>
+        <span class="font-bold text-black uppercase tracking-wider">STACEY WANG ARCHIVE © 2026</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= SECTION 4: SOCIAL LINKS & FOOTER (WITH LINKEDIN & BEHANCE) ================= -->
+  <footer class="bg-[#0D0D0D] text-white p-6 md:p-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+      
+      <div>
+        <p class="font-mono text-xs text-[#FF3B94] tracking-widest uppercase mb-2">LET'S CONNECT</p>
+        <h3 class="font-syne text-4xl sm:text-6xl font-bold uppercase tracking-tight">WORK WITH ME</h3>
+      </div>
+
+      <!-- LINKEDIN & BEHANCE & SOCIAL TAGS -->
+      <div class="flex flex-wrap gap-4 font-mono text-xs font-bold uppercase">
+        <a href="https://linkedin.com" target="_blank" 
+           class="border border-white/30 px-6 py-3 hover:bg-[#FF3B94] hover:text-black hover:border-[#FF3B94] transition-all">
+          LINKEDIN ↗
+        </a>
+        <a href="https://behance.net" target="_blank" 
+           class="border border-white/30 px-6 py-3 hover:bg-[#002BF5] hover:text-white hover:border-[#002BF5] transition-all">
+          BEHANCE ↗
+        </a>
+        <a href="mailto:stacey@editorialstack.com" 
+           class="border border-white/30 px-6 py-3 hover:bg-white hover:text-black transition-all">
+          EMAIL ✉
+        </a>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-6 flex justify-between font-mono text-[10px] text-white/40 uppercase tracking-widest">
+      <span>BUILT WITH PRECISION & EDITORIAL PURPOSE</span>
+      <span>ALL RIGHTS RESERVED 2026</span>
+    </div>
+  </footer>
+
+</body>
+</html>
