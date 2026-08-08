@@ -1,0 +1,789 @@
+<!--
+  ============================================================
+  LINA ORUNDAS — PORTFOLIO SITE — HOW THIS FILE IS ORGANIZED
+  ============================================================
+  This is ONE file with three parts, in this order:
+
+  1. <head>  — fonts + page title (browser tab info)
+  2. <style> — all the CSS (colors, spacing, animations, layout rules)
+  3. <body>  — the actual page content, section by section, top to bottom
+     followed by <script> — the JavaScript (the interactive bits:
+     the name scramble effect, the work carousel, the contact form)
+
+  WHERE YOUR IMAGES GO
+  Every picture on the site is referenced as /images/img-01.jpg,
+  /images/img-02.jpg, etc. Put your real photos in a folder called
+  "images" next to this HTML file, named exactly to match (img-01.jpg,
+  img-02.jpg...). The full list of which number goes where is repeated
+  as a comment right above each <img> tag below, so you don't have to
+  hunt for it — just search this file (Ctrl+F) for "IMAGE:" and you'll
+  jump to every spot that needs a picture, with a note on what it is.
+
+  HOW TO FIND A SECTION
+  Search (Ctrl+F) for a section name in all-caps inside "====" bars,
+  e.g. "ABOUT", "WORK CAROUSEL", "SOCIAL MEDIA", "CONTACT" — every
+  visible section of the page has one of these dividers right before it.
+
+  ------------------------------------------------------------
+  QUICK EDITS CHEAT SHEET
+  ------------------------------------------------------------
+  TEXT SIZE
+  Every heading uses Tailwind classes like "text-5xl sm:text-7xl
+  md:text-8xl" instead of one CSS rule. Bigger number = bigger text.
+  Scale, smallest to biggest: text-4xl, text-5xl, text-6xl, text-7xl,
+  text-8xl, text-9xl. "sm:" and "md:" prefixes mean "use this size once
+  the screen is at least tablet / desktop width" — no prefix = phones.
+  Search "TEXT SIZE —" (Ctrl+F) to jump straight to every heading; a
+  comment sits right above each one telling you which classes to edit.
+
+  BACKGROUND COLOR — BLUE SECTIONS (2 of them)
+  1. The scrolling text banner strip right under the hero
+  2. The whole Contact section at the bottom (the big blue block)
+  Both use the class bg-[#002BF5]. Search "BACKGROUND COLOR —" to jump
+  to each one directly.
+
+  BACKGROUND COLOR — BLACK SECTION (1 of them)
+  The Branding & Identity section (dark block with the "Lina Studio"
+  logo mockup). Uses the class bg-[#0d0d0d].
+
+  CHANGE A COLOR EVERYWHERE AT ONCE
+  Blue, pink, and near-black each appear in dozens of small spots too
+  (accent text, borders, hover states) — not just backgrounds. Rather
+  than hunting each one down, use Find & Replace (Ctrl+H in most code
+  editors) on the hex code itself, without the #:
+    002BF5  → the blue, used everywhere
+    FF3B94  → the pink, used everywhere
+    0d0d0d  → the near-black, used everywhere
+  Replace it with a new 6-character hex code and every use of that
+  color updates in one pass — backgrounds, text, borders, all of it.
+  ------------------------------------------------------------
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINA ORUNDAS — PORTFOLIO</title>
+<meta name="description" content="Lina Orundas — web design, UX/UI, branding, social media and photography portfolio.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,600&family=Mrs+Saint+Delafield&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     COLOR PALETTE — change a value here and it updates
+     everywhere that color is used on the site.
+     ink = near-black text, cobalt = blue, pink = hot pink,
+     paper = warm off-white used for alternating section backgrounds
+  ========================================================= */
+  :root{
+    --ink:#0d0d0d;
+    --cobalt:#002BF5;
+    --pink:#FF3B94;
+    --pink-soft:#FFEAF3;
+    --line:#e7e5e1;
+    --paper:#FAF9F6;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2.5rem;
+    --space-5: 4rem;
+    --space-6: 6rem;
+  }
+  *{box-sizing:border-box;}
+  html,body{background:#ffffff;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* FONTS — three fonts are used on purpose, each for a different job:
+     .font-display = big serif headlines (Bodoni Moda)
+     .font-script   = the pink/blue cursive accent words (Mrs Saint Delafield)
+     .font-mono     = small tracked-out uppercase labels, aka "eyebrow" text
+     To swap a font, change it once here and it updates site-wide. */
+  .font-display{font-family:'Bodoni Moda', serif;}
+  .font-script{font-family:'Mrs Saint Delafield', cursive; font-weight:400;}
+  .font-mono{font-family:'Space Mono', monospace;}
+  ::selection{background:var(--pink); color:#fff;}
+
+  /* Pink outline when tabbing through the page with a keyboard
+     (accessibility — lets keyboard/screen-reader users see where they are) */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--pink); outline-offset:3px;
+  }
+
+  /* ---------- FADE-UP-ON-SCROLL EFFECT ----------
+     Any element with class="reveal" starts invisible and slightly
+     lower, then fades/slides into place once it's scrolled into view.
+     JS at the bottom of the file adds the "in-view" class when that
+     happens. reveal-delay-1 / -2 just stagger a few elements so they
+     don't all animate at the exact same instant. */
+  .reveal{opacity:0; transform:translateY(36px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);}
+  .reveal.in-view{opacity:1; transform:none;}
+  .reveal-delay-1.in-view{transition-delay:.08s;}
+  .reveal-delay-2.in-view{transition-delay:.16s;}
+
+  /* ---------- HERO NAME LETTER HOVER ----------
+     Each letter of "LINA ORUNDAS" is wrapped in its own <span> by the
+     JS below. This is what happens when your mouse is over ONE letter:
+     it lifts, tilts, and turns pink. */
+  .hero-letter{display:inline-block; transition:transform .35s cubic-bezier(.16,1,.3,1), color .35s ease; cursor:default;}
+  .hero-letter:hover{transform:translateY(-0.06em) rotate(-4deg) scale(1.06); color:var(--pink);}
+
+  /* ---------- SPIRAL THAT FOLLOWS YOUR CURSOR ----------
+     A small spiral icon that trails the mouse, but ONLY shows up
+     (opacity 1) while you're hovering a hero-letter above. Position
+     is updated by JS on every mouse movement inside the hero section. */
+  .spiral-cursor{position:fixed; top:0; left:0; width:64px; height:64px; margin:-32px 0 0 -32px; pointer-events:none; opacity:0; z-index:70; transition:opacity .25s ease; will-change:transform;}
+  .spiral-cursor.active{opacity:1;}
+  .spiral-cursor svg{width:100%;height:100%; animation:spin 3.5s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* Little up/down bobbing animation for the "SCROLL ↓" hint at the
+     bottom of the hero section. */
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+  .scroll-cue{animation:bob 2s ease-in-out infinite;}
+
+  /* ---------- GRAYSCALE-TO-COLOR IMAGE HOVER ----------
+     Used on UI/UX cards and the Photography grid. Images sit in
+     black & white (.editorial-img) until you hover the card that
+     contains them (.editorial-card), then they turn to full color
+     and zoom in slightly. */
+  .editorial-img{filter:grayscale(100%) contrast(108%); transition:filter .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);}
+  .editorial-card:hover .editorial-img, .editorial-card:focus-within .editorial-img{filter:grayscale(0%) contrast(100%); transform:scale(1.045);}
+
+  /* ---------- SCROLLING TEXT BANNER ----------
+     The blue strip between the hero and About that endlessly scrolls
+     sideways ("LINA ORUNDAS — WEB & UX/UI — ..."). The text is
+     duplicated once in the HTML and this animation slides it left
+     forever, so it loops seamlessly. */
+  .marquee-track{display:flex; width:max-content; animation:marquee 22s linear infinite;}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* Underline that slides in from the left on hover/focus — used on
+     all text links (nav, "view on Behance", etc). */
+  .link-underline{position:relative; text-decoration:none;}
+  .link-underline::after{content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .4s cubic-bezier(.16,1,.3,1);}
+  .link-underline:hover::after, .link-underline:focus-visible::after{transform:scaleX(1); transform-origin:left;}
+
+  /* The small tracked-out uppercase mono-font labels used everywhere,
+     e.g. "CASE STUDY / 01", "SELECTED WORK". */
+  .eyebrow{font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.22em; text-transform:uppercase;}
+
+  /* ---------- WORK CAROUSEL (the "Take a Look Around" gallery) ----------
+     .carousel-stage = the picture frame itself.
+     All slide images are stacked on top of each other (position:relative
+     on the stage, each <img> fills it); only the one with class
+     "is-active" is visible (opacity 1) — the JS swaps which image has
+     that class when you click an arrow or press ← / →.
+     .carousel-caption = the dark gradient + label text at the bottom
+     of the photo. .carousel-arrow-btn = the round prev/next buttons. */
+  .carousel-stage{position:relative; width:100%; max-width:640px; margin:0 auto; aspect-ratio:4/5; background:#f2f1ee; overflow:hidden;}
+  .carousel-stage img{width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .5s ease;}
+  .carousel-stage img.is-active{opacity:1;}
+  .carousel-caption{position:absolute; left:0; right:0; bottom:0; padding:1.25rem 1.5rem; background:linear-gradient(to top, rgba(0,0,0,.55), transparent); color:#fff;}
+  .carousel-arrow-btn{width:52px; height:52px; border:1px solid rgba(0,0,0,.15); border-radius:999px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#fff; transition:background .3s ease, color .3s ease, border-color .3s ease;}
+  .carousel-arrow-btn:hover, .carousel-arrow-btn:focus-visible{background:var(--pink); border-color:var(--pink); color:#fff;}
+
+  /* ---------- "LINA STUDIO" LOGO MOCKUP (Branding section) ----------
+     This is NOT a photo — it's built entirely from CSS to look like a
+     monitor: a pink outer frame (.monitor), a black "screen"
+     (.monitor-screen) with the script logo text on it, a white
+     torn-corner triangle in the top right (.monitor-peel), and a grey
+     bar underneath standing in for the monitor's base (.monitor-stand). */
+  .monitor{position:relative; background:var(--pink); padding:28px;}
+  .monitor-screen{position:relative; background:#0d0d0d; aspect-ratio:16/10; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+  .monitor-peel{position:absolute; top:0; right:0; width:70px; height:70px; background:linear-gradient(135deg, transparent 50%, #fff 50.5%);}
+  .monitor-stand{height:14px; background:#e9e9e9;}
+
+  /* ---------- CONTACT FORM FIELDS ----------
+     Styles the Name / Email / Message inputs to look like minimal
+     underlined fields on the blue background, matching the site's
+     look instead of default browser form styling. */
+  .field label{display:block; margin-bottom:.4rem;}
+  .field input, .field textarea{
+    width:100%; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.35);
+    color:#fff; padding:.6rem 0; font-family:'Inter',sans-serif; font-size:1rem;
+  }
+  .field input::placeholder, .field textarea::placeholder{color:rgba(255,255,255,.35);}
+  .field input:focus, .field textarea:focus{outline:none; border-color:#fff;}
+  .form-status{min-height:1.4rem;}
+
+  /* If a visitor's device/browser is set to reduce motion, turn off
+     all the animations above instead of forcing them to play —
+     an accessibility courtesy, not a visual choice. */
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .hero-letter, .editorial-img, .scroll-cue, .marquee-track, .carousel-stage img{transition:none!important; animation:none!important;}
+    .reveal{opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body class="antialiased">
+
+  <div class="spiral-cursor" id="spiralCursor" aria-hidden="true">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 32C32 23 25 18 18 22C11 26 12 36 20 39C30 43 40 34 36 22C31 8 12 8 6 22" stroke="#FF3B94" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- ============ HEADER / NAV ============ -->
+  <header class="fixed top-0 left-0 w-full z-50 px-5 py-4 md:px-8 md:py-6 flex justify-between items-start eyebrow bg-white/70 backdrop-blur-sm">
+    <span class="font-bold">LINA ORUNDAS</span>
+    <nav aria-label="Primary" class="flex gap-4 md:gap-6">
+      <a href="#about" class="link-underline hover:text-[#FF3B94] py-1">INFO</a>
+      <a href="#work" class="link-underline hover:text-[#FF3B94] py-1">WORK</a>
+      <a href="#contact" class="link-underline hover:text-[#FF3B94] py-1">CONTACT</a>
+      <a href="https://www.linkedin.com/in/linaorundas" target="_blank" rel="noopener" class="link-underline hover:text-[#FF3B94] py-1 hidden sm:inline">LINKEDIN ↗</a>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <!-- HERO: "who is this / what does she do" answered immediately below the name -->
+  <section id="hero" class="min-h-screen flex flex-col justify-center items-center relative px-6 pt-24 pb-16 overflow-hidden">
+    <p class="eyebrow text-black/50 mb-6">PORTFOLIO ARCHIVE — 2026</p>
+
+    <!-- TEXT SIZE — hero name: text-[15vw] = phone, sm:text-[13vw] = tablet, md:text-[10vw] = desktop. Bigger number = bigger text. -->
+    <h1 id="heroName" data-text="LINA ORUNDAS" class="font-display font-black uppercase leading-[0.85] text-center text-[15vw] sm:text-[13vw] md:text-[10vw] tracking-tight">
+      LINA ORUNDAS
+    </h1>
+
+    <p class="font-script text-4xl sm:text-5xl md:text-6xl text-[#FF3B94] mt-4">where imagination meets execution</p>
+
+    <p class="max-w-md text-center text-sm md:text-base text-black/60 mt-8 leading-relaxed">
+      Creative designer working across web, UX/UI, branding, and social content —
+      built with intention, driven by detail, made to move people.
+    </p>
+
+    <a href="#work" class="scroll-cue absolute bottom-10 flex flex-col items-center gap-2 eyebrow text-black/40 link-underline">
+      <span>SCROLL</span>
+      <span aria-hidden="true">↓</span>
+    </a>
+  </section>
+
+  <!-- BACKGROUND COLOR — BLUE: this scrolling banner strip. Change 002BF5 below (or find/replace 002BF5 site-wide for every blue accent) -->
+  <div class="bg-[#002BF5] text-white py-3 overflow-hidden whitespace-nowrap border-y border-black/5" aria-hidden="true">
+    <div class="marquee-track eyebrow">
+      <span class="px-6">LINA ORUNDAS — WEB &amp; UX/UI — BRANDING &amp; IDENTITY — SOCIAL MEDIA — GRAPHIC DESIGN — PHOTOGRAPHY —</span>
+      <span class="px-6">LINA ORUNDAS — WEB &amp; UX/UI — BRANDING &amp; IDENTITY — SOCIAL MEDIA — GRAPHIC DESIGN — PHOTOGRAPHY —</span>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <!-- IMAGE: img-01.jpg — About Me portrait (large editorial, sets the tone) -->
+  <section id="about" class="py-20 md:py-32 px-6 border-b border-[var(--line)]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 md:gap-14 items-stretch">
+      <div class="md:col-span-6 lg:col-span-7 order-2 md:order-1 reveal">
+        <img src="/images/img-01.jpg" alt="Portrait of Lina Orundas" class="w-full h-full min-h-[22rem] md:min-h-[32rem] object-cover">
+      </div>
+      <div class="md:col-span-6 lg:col-span-5 order-1 md:order-2 flex flex-col justify-center reveal reveal-delay-1">
+        <p class="eyebrow text-[#002BF5] mb-3">HI, I'M —</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-6xl leading-[0.9] mb-6">About <span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Me</span></h2>
+        <div class="space-y-5 text-lg leading-relaxed text-black/75 max-w-md">
+          <p>I'm a multidisciplinary creative focused on web design, UX/UI, digital marketing, and visual storytelling — turning ideas into engaging digital experiences that combine aesthetics with strategy.</p>
+          <p>From branding and graphic design to social content and full websites, I'm driven by creativity, detail, and purposeful design. Beyond the digital space, my work extends through illustration, music production, and photography.</p>
+          <p class="font-display italic text-2xl text-black pt-1">Constantly inspired by the connection between art, design, and emotion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK CAROUSEL ============ -->
+  <!-- IMAGES: img-02.jpg – img-08.jpg — Work carousel gallery (see image map at bottom of file) -->
+  <section id="work" class="py-20 md:py-32 px-6">
+    <div class="max-w-3xl mx-auto text-center mb-12 reveal">
+      <p class="eyebrow text-[#FF3B94] mb-3">SELECTED WORK</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+      <h2 class="font-display font-bold text-4xl sm:text-6xl md:text-7xl">Take a Look Around</h2>
+      <p class="text-black/50 mt-4 eyebrow">USE THE ARROWS OR ← → KEYS TO BROWSE</p>
+    </div>
+
+    <div class="reveal reveal-delay-1 max-w-3xl mx-auto">
+      <div class="carousel-stage" id="carouselStage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Selected work gallery">
+        <!-- carousel images injected by JS; alt text set per slide -->
+        <div class="carousel-caption">
+          <p class="eyebrow" id="carouselCaption">UI / UX</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-6 mt-8">
+        <button type="button" class="carousel-arrow-btn" id="carouselPrev" aria-label="Previous project">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="eyebrow text-black/40" id="carouselCount" aria-live="polite">01 / 07</span>
+        <button type="button" class="carousel-arrow-btn" id="carouselNext" aria-label="Next project">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills" class="py-20 md:py-32 px-6 bg-[var(--paper)] border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-5 reveal">
+        <p class="eyebrow text-[#FF3B94] mb-3">INFO / 02</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-6xl leading-[0.9]">Skills &amp; <span class="font-script text-[#002BF5] font-normal text-6xl sm:text-7xl">Tools</span></h2>
+        <p class="text-black/60 mt-6 leading-relaxed max-w-sm">I combine creative and technical skills across web design, branding, and content — working in Figma and Adobe Creative Suite to deliver polished, user-focused visuals.</p>
+      </div>
+      <div class="md:col-span-7 reveal reveal-delay-1">
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-4">
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Web Design</span><span class="eyebrow text-black/30">01</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">UX / UI</span><span class="eyebrow text-black/30">02</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Branding &amp; Identity</span><span class="eyebrow text-black/30">03</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Graphic Design</span><span class="eyebrow text-black/30">04</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Social Media Content</span><span class="eyebrow text-black/30">05</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Motion &amp; Editing</span><span class="eyebrow text-black/30">06</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Photography</span><span class="eyebrow text-black/30">07</span></li>
+          <li class="border-b border-black/10 pb-4 flex justify-between items-baseline"><span class="font-display text-xl">Figma / Adobe Suite</span><span class="eyebrow text-black/30">08</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CREATIVE PHILOSOPHY ============ -->
+  <!-- IMAGE: img-09.gif — Photo booth strip animation (personal, behind-the-scenes) -->
+  <section id="philosophy" class="py-20 md:py-32 px-6 border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+      <div class="md:col-span-6 reveal">
+        <p class="eyebrow text-[#002BF5] mb-3">PHILOSOPHY</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-6xl leading-[0.95] mb-6">Creative <span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Philosophy</span> &amp; Approach</h2>
+        <p class="text-black/70 leading-relaxed mb-4">My creative approach is rooted in visual storytelling, user experience, and intentional design. I believe the strongest digital experiences come from balancing creativity with functionality, where every detail has a purpose.</p>
+        <p class="text-black/70 leading-relaxed">Whether I'm building a website, shaping a brand identity, or designing a user experience, I aim to make every creative decision thoughtful and impactful.</p>
+      </div>
+      <div class="md:col-span-6 reveal reveal-delay-1">
+        <div class="max-w-xs mx-auto">
+          <img src="/images/img-09.gif" alt="Animated photo booth strip printing" class="w-full shadow-2xl" loading="lazy">
+          <p class="eyebrow text-black/35 mt-3 text-center">A LITTLE BEHIND-THE-SCENES CHARM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT'S IN MY BAG ============ -->
+  <!-- IMAGE: img-10.gif — What's in my bag animation -->
+  <section id="bag" class="py-20 md:py-32 px-6 bg-[var(--paper)] border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+      <div class="md:col-span-5 reveal order-2 md:order-1">
+        <div class="max-w-xs mx-auto">
+          <img src="/images/img-10.gif" alt="What's in my bag animation" class="w-full" loading="lazy">
+        </div>
+      </div>
+      <div class="md:col-span-7 order-1 md:order-2 reveal reveal-delay-1">
+        <p class="eyebrow text-[#FF3B94] mb-3">A LITTLE EXTRA</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-7xl leading-[0.9] mb-6">What's In My <span class="font-script text-[#002BF5] font-normal text-6xl sm:text-7xl">Bag?</span></h2>
+        <p class="text-black/60 leading-relaxed max-w-md mb-8">The apps that actually run every project — the real behind-the-scenes of how the work gets made.</p>
+        <div class="flex flex-wrap gap-3 eyebrow">
+          <span class="border border-black/15 px-4 py-2">TIKTOK</span>
+          <span class="border border-black/15 px-4 py-2">INSTAGRAM</span>
+          <span class="border border-black/15 px-4 py-2">FIGMA</span>
+          <span class="border border-black/15 px-4 py-2">PROCREATE</span>
+          <span class="border border-black/15 px-4 py-2">AFTER EFFECTS</span>
+          <span class="border border-black/15 px-4 py-2">CAPCUT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UI/UX CASE STUDY ============ -->
+  <!-- IMAGES: img-11.jpg (feature), img-12.jpg, img-13.jpg (supporting) -->
+  <section id="uiux" class="py-20 md:py-32 px-6 border-t border-[var(--line)]" aria-labelledby="uiux-heading">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-10">
+        <p class="eyebrow text-[#002BF5] mb-3">CASE STUDY / 01</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 id="uiux-heading" class="font-display font-bold text-5xl sm:text-7xl">UI/UX &amp; <span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Digital Interfaces</span></h2>
+        <p class="text-black/60 mt-6 max-w-xl leading-relaxed">Design rooted in visual storytelling and intentional interaction — balancing creativity with functionality so every screen feels natural to use.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5 reveal reveal-delay-1">
+        <a href="https://www.behance.net/linaorundas" target="_blank" rel="noopener" class="editorial-card relative overflow-hidden block h-96 md:h-[30rem] md:row-span-2">
+          <img src="/images/img-11.jpg" class="editorial-img w-full h-full object-cover" alt="Noora Studio onboarding app interface" loading="lazy">
+          <div class="absolute bottom-0 left-0 right-0 p-5 bg-white/95">
+            <p class="font-display font-bold text-xl">Noora Studio</p>
+            <p class="eyebrow text-black/50">ONBOARDING APP</p>
+          </div>
+        </a>
+        <a href="https://www.behance.net/linaorundas" target="_blank" rel="noopener" class="editorial-card relative overflow-hidden block h-56">
+          <img src="/images/img-12.jpg" class="editorial-img w-full h-full object-cover" alt="HiTrack mobile app interface" loading="lazy">
+          <div class="absolute bottom-0 left-0 right-0 p-4 bg-white/95">
+            <p class="font-display font-bold">HiTrack</p>
+            <p class="eyebrow text-black/50">MOBILE APP</p>
+          </div>
+        </a>
+        <a href="https://www.behance.net/linaorundas" target="_blank" rel="noopener" class="editorial-card relative overflow-hidden block h-56">
+          <img src="/images/img-13.jpg" class="editorial-img w-full h-full object-cover" alt="Music Club premium upgrade flow interface" loading="lazy">
+          <div class="absolute bottom-0 left-0 right-0 p-4 bg-white/95">
+            <p class="font-display font-bold">Music Club</p>
+            <p class="eyebrow text-black/50">PREMIUM UPGRADE FLOW</p>
+          </div>
+        </a>
+      </div>
+      <a href="https://www.behance.net/linaorundas" target="_blank" rel="noopener" class="link-underline inline-block mt-10 eyebrow text-[#002BF5] reveal reveal-delay-2">VIEW FULL CASE STUDIES ON BEHANCE ↗</a>
+    </div>
+  </section>
+
+  <!-- ============ BRANDING (no photo — CSS/type mockup) ============ -->
+  <!-- BACKGROUND COLOR — BLACK: the whole Branding & Identity section. Change 0d0d0d below (or find/replace 0d0d0d site-wide) -->
+  <section id="branding" class="py-20 md:py-32 px-6 bg-[#0d0d0d] text-white border-t border-black">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 items-center">
+      <div class="md:col-span-7 reveal">
+        <p class="eyebrow text-[#FF3B94] mb-3">CASE STUDY / 02</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-7xl leading-[0.9]">Branding &amp;<br><span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Identity</span></h2>
+        <p class="text-white/70 mt-6 max-w-xl leading-relaxed">Branding is about more than a logo — it's shaping identity, emotion, and perception. Every project rebuilds an idea from its core, giving it new direction through design.</p>
+        <p class="text-white/70 mt-4 max-w-xl leading-relaxed">Work spans logo design, visual identity systems, typography, and brand guidelines — developed to feel intentional and memorable across every touchpoint.</p>
+      </div>
+      <div class="md:col-span-5 reveal reveal-delay-1">
+        <div class="monitor">
+          <div class="monitor-screen">
+            <span class="font-script text-white text-5xl">Lina Studio</span>
+            <span class="absolute top-4 right-4 text-white/40 text-xs eyebrow">®</span>
+            <div class="monitor-peel"></div>
+          </div>
+        </div>
+        <div class="monitor-stand"></div>
+        <p class="eyebrow text-white/40 mt-4">BRAND MARK — LINA STUDIO ®</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOCIAL MEDIA — IMAGE | TEXT | IMAGE ============ -->
+  <!-- IMAGES: img-14.jpg (left), img-15.jpg (right) — exactly two images -->
+  <section id="social" class="py-20 md:py-32 px-6 border-t border-[var(--line)]" aria-labelledby="social-heading">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-6 md:gap-8 items-stretch">
+      <div class="md:col-span-4 order-1 reveal">
+        <img src="/images/img-14.jpg" alt="Social media content example, image one" class="w-full h-64 md:h-full object-cover" loading="lazy">
+      </div>
+
+      <div class="md:col-span-4 order-3 md:order-2 flex flex-col justify-center py-8 md:py-0 reveal reveal-delay-1">
+        <p class="eyebrow text-[#FF3B94] mb-3">CASE STUDY / 03</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 id="social-heading" class="font-display font-bold text-4xl sm:text-5xl leading-[0.95] mb-5">Social Media &amp; <span class="font-script text-[#002BF5] font-normal text-5xl sm:text-6xl">Content</span></h2>
+        <p class="font-display text-xl leading-snug mb-4">
+          "One project — a pizzeria's TikTok — grew until <span class="text-[#FF3B94]">Sweden's former Prime Minister</span> visited after seeing the videos online."
+        </p>
+        <p class="text-black/60 text-sm leading-relaxed mb-6">Building engaging online presence strategies from the ground up — content production and visual storytelling that create authentic results.</p>
+        <div class="border border-black/10 p-4 bg-[var(--paper)]">
+          <p class="eyebrow text-black/40 mb-1">SIDE PROJECT</p>
+          <p class="font-display text-base mb-1">Trend Analysis &amp; Recreation</p>
+          <p class="text-black/60 text-sm leading-relaxed">Recreated a viral trend to study hook timing and rhythm, then rebuilt it with original content and styling.</p>
+        </div>
+      </div>
+
+      <div class="md:col-span-4 order-2 md:order-3 reveal reveal-delay-2">
+        <img src="/images/img-15.jpg" alt="Social media content example, image two" class="w-full h-64 md:h-full object-cover" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GRAPHIC DESIGN ============ -->
+  <!-- IMAGES: img-16.jpg (large feature), img-17.jpg (supporting) -->
+  <section id="graphic" class="py-20 md:py-32 px-6 bg-[var(--paper)] border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-10 max-w-2xl">
+        <p class="eyebrow text-[#002BF5] mb-3">CASE STUDY / 04</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-6xl leading-[0.9]">Graphic Design is my <span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Passion</span></h2>
+        <p class="text-black/60 mt-6 leading-relaxed">Magazine covers, layouts, and visual compositions where typography and imagery come together to tell a story — clean, engaging, and always originally created.</p>
+      </div>
+      <div class="grid md:grid-cols-12 gap-4 reveal reveal-delay-1">
+        <img src="/images/img-16.jpg" class="md:col-span-8 w-full h-80 md:h-[30rem] object-cover" alt="Editorial layout, feature piece" loading="lazy">
+        <img src="/images/img-17.jpg" class="md:col-span-4 w-full h-80 md:h-[30rem] object-cover" alt="Editorial layout, supporting piece" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PHOTOGRAPHY ============ -->
+  <!-- IMAGES: img-18.jpg (feature), img-19.jpg, img-20.jpg, img-21.jpg (grid) -->
+  <section id="photography" class="py-20 md:py-32 px-6 border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-10 max-w-2xl">
+        <p class="eyebrow text-[#FF3B94] mb-3">CASE STUDY / 05</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-7xl">Photography &amp; <span class="font-script text-[#002BF5] font-normal text-6xl sm:text-7xl">Visual Content</span></h2>
+        <p class="text-black/60 mt-6 leading-relaxed">Capturing original content and adding depth to visual storytelling — exploring identity, space, and texture through composition and light.</p>
+      </div>
+      <div class="grid md:grid-cols-12 gap-3 reveal reveal-delay-1">
+        <div class="editorial-card overflow-hidden md:col-span-7 h-72 md:h-[28rem]"><img src="/images/img-18.jpg" class="editorial-img w-full h-full object-cover" alt="Featured photography piece" loading="lazy"></div>
+        <div class="md:col-span-5 grid grid-cols-2 gap-3">
+          <div class="editorial-card overflow-hidden h-[8.75rem] md:h-[13.5rem]"><img src="/images/img-19.jpg" class="editorial-img w-full h-full object-cover" alt="Photography grid image one" loading="lazy"></div>
+          <div class="editorial-card overflow-hidden h-[8.75rem] md:h-[13.5rem]"><img src="/images/img-20.jpg" class="editorial-img w-full h-full object-cover" alt="Photography grid image two" loading="lazy"></div>
+          <div class="editorial-card overflow-hidden col-span-2 h-[8.75rem] md:h-[13.5rem]"><img src="/images/img-21.jpg" class="editorial-img w-full h-full object-cover" alt="Photography grid image three" loading="lazy"></div>
+        </div>
+      </div>
+      <p class="eyebrow text-black/35 mt-6 reveal reveal-delay-2">ALL IMAGES ARE ORIGINAL WORK AND REMAIN UNDER FULL OWNERSHIP</p>
+    </div>
+  </section>
+
+  <!-- ============ RECOGNITION & FEEDBACK ============ -->
+  <!-- IMAGE: img-22.jpg -->
+  <section id="recognition" class="py-20 md:py-32 px-6 bg-[var(--paper)] border-t border-[var(--line)]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+      <div class="md:col-span-7 reveal">
+        <p class="eyebrow text-[#002BF5] mb-3">BEFORE YOU GO</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+        <h2 class="font-display font-bold text-5xl sm:text-6xl leading-[0.9] mb-6">Recognition &amp; <span class="font-script text-[#FF3B94] font-normal text-6xl sm:text-7xl">Feedback</span></h2>
+        <p class="text-black/70 leading-relaxed mb-4">I've had the opportunity to receive encouraging feedback and recognition from clients, collaborators, and creative spaces — moments that highlight the impact of the work.</p>
+        <p class="text-black/70 leading-relaxed">For me, it's not about awards — it's about creating work that connects with people and makes a meaningful impact.</p>
+      </div>
+      <div class="md:col-span-5 reveal reveal-delay-1">
+        <img src="/images/img-22.jpg" alt="Lina Orundas" class="w-full max-w-xs mx-auto shadow-xl" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <!-- BACKGROUND COLOR — BLUE: the whole Contact/footer section. Change 002BF5 below (or find/replace 002BF5 site-wide for every blue accent) -->
+  <section id="contact" class="bg-[#002BF5] text-white pt-20 md:pt-32 px-6">
+    <div class="max-w-6xl mx-auto">
+      <p class="eyebrow text-white/60 mb-4 reveal">THANK YOU FOR STOPPING BY</p>
+        <!-- TEXT SIZE — this heading: the text-Nxl classes below control it (text-4xl smallest ... text-9xl biggest). sm: / md: prefixes = size at tablet/desktop width. -->
+      <h2 class="font-display font-bold text-5xl sm:text-7xl md:text-8xl leading-[0.85] reveal">LET'S WORK<br><span class="font-script font-normal">Together</span></h2>
+      <p class="text-white/70 mt-6 max-w-md reveal">Have an idea, project, or collaboration in mind? I'd love to hear about it.</p>
+
+      <form id="contactForm" class="mt-14 max-w-xl reveal reveal-delay-1" novalidate>
+        <div class="field mb-8">
+          <label for="name" class="eyebrow text-white/60">NAME</label>
+          <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name">
+        </div>
+        <div class="field mb-8">
+          <label for="email" class="eyebrow text-white/60">EMAIL</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@email.com">
+        </div>
+        <div class="field mb-6">
+          <label for="message" class="eyebrow text-white/60">MESSAGE</label>
+          <textarea id="message" name="message" rows="4" required placeholder="Tell me a little about your project"></textarea>
+        </div>
+        <p class="form-status eyebrow" id="formStatus" role="status" aria-live="polite"></p>
+        <button type="submit" class="eyebrow border border-white/60 px-7 py-3 mt-2 hover:bg-white hover:text-[#002BF5] transition-colors">SEND MESSAGE ↗</button>
+      </form>
+
+      <div class="flex flex-wrap gap-4 mt-16 eyebrow">
+        <a href="https://www.linkedin.com/in/linaorundas" target="_blank" rel="noopener" class="border border-white/40 px-6 py-3 hover:bg-white hover:text-[#002BF5] transition-colors">LINKEDIN ↗</a>
+        <a href="https://www.behance.net/linaorundas" target="_blank" rel="noopener" class="border border-white/40 px-6 py-3 hover:bg-[#FF3B94] hover:border-[#FF3B94] transition-colors">BEHANCE ↗</a>
+        <!-- INSTAGRAM: placeholder — replace href with your real Instagram URL -->
+        <a href="#" class="border border-white/40 px-6 py-3 hover:bg-white hover:text-[#002BF5] transition-colors" title="Replace with your Instagram URL">INSTAGRAM ↗</a>
+        <a href="mailto:linaorundas70@gmail.com" class="border border-white/40 px-6 py-3 hover:bg-white hover:text-[#002BF5] transition-colors">EMAIL ✉</a>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto border-t border-white/15 mt-16 pt-6 pb-8 flex flex-col sm:flex-row justify-between gap-2 eyebrow text-white/40">
+      <span>ALL WORK DISPLAYED IS ORIGINAL AND REMAINS MY INTELLECTUAL PROPERTY</span>
+      <span>LINA ORUNDAS © 2026</span>
+    </div>
+  </section>
+
+<script>
+  /* =========================================================
+     PART 1 — HERO NAME ANIMATION + CURSOR SPIRAL
+     What this does, in order:
+     a) Takes the plain text "LINA ORUNDAS" and breaks it into one
+        <span> per letter (so each letter can be hovered/animated
+        on its own).
+     b) On page load, briefly flickers each letter through random
+        symbols before it "locks in" to the real letter — that's the
+        decode/scramble effect, staggered slightly left-to-right.
+     c) Tracks the mouse while it's inside the hero section, and
+        moves the little spiral graphic to follow it — but the
+        spiral only becomes visible while the mouse is actually over
+        one of the letters (see .spiral-cursor.active in the CSS).
+  ========================================================= */
+  (function(){
+    const el = document.getElementById('heroName');
+    const finalText = el.dataset.text;              // "LINA ORUNDAS" — the real text to land on
+    const scrambleChars = "!<>-_\\/[]{}—=+*^?#";      // random symbols used mid-animation
+    el.innerHTML = '';
+    const spans = [];
+    // turn "LINA ORUNDAS" into individual letter <span> elements
+    finalText.split('').forEach((ch) => {
+      const span = document.createElement('span');
+      span.className = 'hero-letter';
+      span.textContent = ch === ' ' ? '\u00A0' : ch; // keep spaces visible
+      el.appendChild(span);
+      spans.push(span);
+    });
+    // for each letter: rapidly swap in random characters, then settle
+    // on the correct letter after a few cycles. "delay" staggers the
+    // start time per letter so the effect ripples left to right.
+    spans.forEach((span, i) => {
+      const final = span.textContent;
+      if (final === '\u00A0') return; // skip animating blank spaces
+      const maxIterations = 8 + Math.floor(Math.random() * 6);
+      const delay = i * 45;
+      let iterations = 0;
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          span.textContent = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          iterations++;
+          if (iterations >= maxIterations) {
+            clearInterval(interval);
+            span.textContent = final; // lock in the real letter
+          }
+        }, 32);
+      }, delay);
+    });
+    // cursor-following spiral: reposition it on every mouse move,
+    // and toggle it visible only while hovering an actual letter
+    const hero = document.getElementById('hero');
+    const cursor = document.getElementById('spiralCursor');
+    hero.addEventListener('mousemove', (e) => { cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; });
+    spans.forEach((span) => {
+      span.addEventListener('mouseenter', () => cursor.classList.add('active'));
+      span.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+    });
+    hero.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  })();
+
+  /* =========================================================
+     PART 2 — FADE-UP-ON-SCROLL
+     Watches every element with class="reveal" on the page. The
+     browser tells us (via IntersectionObserver) the moment one
+     scrolls into view, and we add the "in-view" class to it —
+     which is what actually triggers the fade/slide-in transition
+     defined in the CSS above. Each element only animates once.
+  ========================================================= */
+  (function(){
+    const items = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15 });
+    items.forEach((item) => io.observe(item));
+  })();
+
+  /* =========================================================
+     PART 3 — "SELECTED WORK" CAROUSEL
+     This is the gallery in the WORK section. All 7 images are
+     defined right here in this "slides" list — this is also
+     where you'd add a new image or relabel an existing one
+     (each entry needs an image path + a caption).
+     How it works: every slide's <img> gets created and stacked
+     on top of each other; only the "current" one is shown by
+     toggling the .is-active class. next()/prev() just move the
+     "index" forward or back and redraw. Works via: clicking the
+     round arrow buttons, pressing the ← / → keyboard keys while
+     the gallery is focused, or swiping left/right on a touchscreen.
+  ========================================================= */
+  (function(){
+    // EDIT ME: this list controls what shows in the Work carousel,
+    // and in what order. "src" is the image file, "caption" is the
+    // small label shown at the bottom of the photo.
+    const slides = [
+      { src: '/images/img-02.jpg', caption: 'UI / UX' },
+      { src: '/images/img-03.jpg', caption: 'Branding' },
+      { src: '/images/img-04.jpg', caption: 'Social Media' },
+      { src: '/images/img-05.jpg', caption: 'Behind the Scenes' },
+      { src: '/images/img-06.jpg', caption: 'Motion Design' },
+      { src: '/images/img-07.jpg', caption: 'On Location' },
+      { src: '/images/img-08.jpg', caption: 'Photography' }
+    ];
+    let index = 0; // which slide is currently showing (starts at the first, index 0)
+    const stage = document.getElementById('carouselStage');
+    const caption = document.getElementById('carouselCaption');
+    const count = document.getElementById('carouselCount');
+
+    // Build one <img> tag per slide (only runs once, when the page loads)
+    const imgEls = slides.map((s, i) => {
+      const img = document.createElement('img');
+      img.src = s.src;
+      img.alt = s.caption + ' — selected work';
+      if (i === 0) img.classList.add('is-active');
+      stage.insertBefore(img, stage.firstChild);
+      return img;
+    });
+
+    // turns 1 into "01", 12 stays "12" — just for the "03 / 07" counter display
+    function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+    // redraws the carousel to match whatever "index" currently is:
+    // shows the right image, updates the caption text and the counter
+    function render(){
+      imgEls.forEach((img, i) => img.classList.toggle('is-active', i === index));
+      caption.textContent = slides[index].caption;
+      count.textContent = pad(index+1) + ' / ' + pad(slides.length);
+    }
+    render(); // draw the first slide immediately on page load
+
+    function next(){ index = (index + 1) % slides.length; render(); } // wraps back to slide 1 after the last
+    function prev(){ index = (index - 1 + slides.length) % slides.length; render(); } // wraps to the last slide before the first
+
+    // the round arrow buttons
+    document.getElementById('carouselNext').addEventListener('click', next);
+    document.getElementById('carouselPrev').addEventListener('click', prev);
+
+    // left/right arrow keys, only while the gallery itself is focused
+    // (click the photo once, or tab to it, then use your keyboard)
+    stage.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { next(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { prev(); e.preventDefault(); }
+    });
+
+    // swipe support for phones/tablets: measures how far a touch
+    // moved horizontally between finger-down and finger-up, and
+    // treats anything past 40px as a deliberate swipe left/right
+    let touchStartX = null;
+    stage.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+      touchStartX = null;
+    }, { passive: true });
+  })();
+
+  /* =========================================================
+     PART 4 — CONTACT FORM
+     This form works via "mailto" — no signup, no backend, no
+     server needed. When someone clicks Send, this builds a
+     pre-filled email (to linaorundas70@gmail.com, subject +
+     body pulled from what they typed) and opens their computer
+     or phone's default email app with it ready to send. THEY
+     still have to hit send in their own email app — nothing
+     leaves this webpage on its own, so no message can get lost
+     or land in a spam filter silently.
+     Trade-off: this only works if the visitor has an email app
+     set up on their device. If you outgrow that later, swap this
+     block for a Formspree (or similar) call instead.
+  ========================================================= */
+  (function(){
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    const CONTACT_EMAIL = 'linaorundas70@gmail.com'; // EDIT ME if this changes
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // stop the browser's default page-reload submit
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); // simple "looks like an email" check
+
+      if (!name || !emailOk || !message) {
+        status.textContent = 'Please fill in your name, a valid email, and a message.';
+        status.style.color = '#FFB4D6';
+        return;
+      }
+
+      // Build a mailto: link. Subject + body are URL-encoded so
+      // line breaks and special characters come through correctly.
+      const subject = `Portfolio inquiry from ${name}`;
+      const body = `${message}\n\n— ${name} (${email})`;
+      const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailtoUrl;
+
+      status.textContent = 'Opening your email app — just hit send there to reach me.';
+      status.style.color = '#ffffff';
+      form.reset();
+    });
+  })();
+</script>
+</body>
+</html>
